@@ -23,12 +23,16 @@ public class PruebasUnitarias implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         // Prueba de Repositorio
-        if(libroRepositorio.count() == 0) {
-            libroRepositorio.save(new Libro(null, "Clean Code", "Roberto C. Martin",
-             "Buenas prácticas", 2008, "", 3));
-        }
+        // System.out.println("###### Inicia la prueba de guardar");
+        // libroRepositorio.save(new Libro(null, "Effective Java", "Joshua Bloch", "Java", 2018, "", 5));
+        // libroRepositorio.save(new Libro(null, "Spring in Action", "Craig Walls", "Spring", 2022, "", 0));
+        // libroRepositorio.save(new Libro(null, "Design Patterns", "Gamma, Helm, Johnson, Vlissides", "Patrones de diseño", 1994, "", 2));
+        // libroRepositorio.save(new Libro(null, "Refactoring", "Martin Fowler", "Buenas prácticas", 2018, "", 0));
+        // libroRepositorio.save(new Libro(null, "The Pragmatic Programmer", "Hunt y Thomas", "Buenas prácticas", 2019, "", 4));
+        // System.out.println("###### Finaliza la prueba de guardar");
+        
         // Prueba de Servicio
-        List<Libro> resultado = libroServicio.listarLibros();
+        List<Libro> resultado = libroRepositorio.obtenerTodosLosLibros();
         resultado.forEach((l)-> System.out.println(l.getTitulo()));   
     } 
 }
