@@ -18,6 +18,8 @@ public interface LibroRepositorio extends JpaRepository<Libro, Long>, LibroBusqu
     // Regla: CRUD no repetir titulo + autor
     boolean existsByTituloIgnoreCaseAndAutorIgnoreCase(String titulo, String autor);
 
+    // Regla de duplicados al editar
+    boolean existsByTituloIgnoreCaseAndAutorIgnoreCaseAndIdNot(String titulo, String autor, Long id);
    
     // Named Query
     @Query("SELECT l FROM Libro l")

@@ -30,6 +30,26 @@ public class LibroServicio {
         return libroRepositorio.save(libro); // INSERT (el libro no tiene id esta se autogenera)
     }
 
+    public Libro actualizarLibro(Long id, LibroSolictud datos){
+        // Paso 1: obtener el libro por id
+        Libro libro = obtenerLibro(id);
+        // 1.1 Validar si el titulo y el autor existen y el id es diferente
+        if(libroRepositorio.existsByTituloIgnoreCaseAndAutorIgnoreCaseAndIdNot(datos.titulo().trim(), datos.autor().trim(), id)){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Ya existe otro libro con ese titulo y autor");
+        }
+        // Paso 2 Copiar datos
+        copiarDatos(datos, libro);
+        // Paso 3 Grabar
+        return libroRepositorio.save(libro); // UPDATE ya que el libro tiene ID
+    }
+
+    public void eliminarLibro(Long id){
+        Libro libro = obtenerLibro(id);
+        // Al implementar prestamos no deberiamos poder eliminar un libro que tiene prestamo
+        // prestamoServicio.existsByLibroId(id);
+        libroRepositorio.delete(libro);
+    }
+
     private void copiarDatos(LibroSolictud datos, Libro libro){
         libro.setTitulo(datos.titulo().trim());
         libro.setAutor(datos.autor().trim());

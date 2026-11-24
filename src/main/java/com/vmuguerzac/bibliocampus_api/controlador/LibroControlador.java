@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController 
 @RequestMapping("/api/libros")
@@ -38,7 +41,19 @@ public class LibroControlador {
         URI ubicacion = URI.create("/api/libros/" + libroCreado.getId());
         return ResponseEntity.created(ubicacion).body(libroCreado); // 201 Created + locacion
     }
-    
+
+    // PUT actualizar
+    @PutMapping("/{id}")
+    public Libro actualizarLibro(@PathVariable("id") Long id, @Valid @RequestBody LibroSolictud datos ) {
+        return libroServicio.actualizarLibro(id, datos);
+    }
+
+    // DELETE
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarLibro(@PathVariable("id") Long id){
+        libroServicio.eliminarLibro(id);
+        return ResponseEntity.noContent().build(); // 204 no content
+    }
 
     // GET listarLibros
     @GetMapping
