@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.vmuguerzac.bibliocampus_api.dto.LibroSolictud;
 import com.vmuguerzac.bibliocampus_api.modelos.Libro;
 import com.vmuguerzac.bibliocampus_api.servicios.LibroServicio;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
-
 
 @RestController 
 @RequestMapping("/api/libros")
@@ -32,7 +33,7 @@ public class LibroControlador {
 
     // POST
     @PostMapping
-    public ResponseEntity<Libro> crearLibro(@RequestBody LibroSolictud datos) {
+    public ResponseEntity<Libro> crearLibro(@Valid @RequestBody LibroSolictud datos) {
         Libro libroCreado = libroServicio.crearLibro(datos);
         URI ubicacion = URI.create("/api/libros/" + libroCreado.getId());
         return ResponseEntity.created(ubicacion).body(libroCreado); // 201 Created + locacion
