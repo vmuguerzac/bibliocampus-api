@@ -15,6 +15,9 @@ public interface LibroRepositorio extends JpaRepository<Libro, Long>, LibroBusqu
     // Encontrar top 3 que tienen menos copias
     List<Libro> findTop3ByOrderByCopiasDisponiblesAsc();
 
+    // Regla: CRUD no repetir titulo + autor
+    boolean existsByTituloIgnoreCaseAndAutorIgnoreCase(String titulo, String autor);
+
    
     // Named Query
     @Query("SELECT l FROM Libro l")

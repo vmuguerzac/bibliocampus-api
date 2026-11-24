@@ -3,6 +3,7 @@ package com.vmuguerzac.bibliocampus_api.servicios;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -18,7 +19,12 @@ public class LibroServicio {
         this.libroRepositorio = instancia;
     } 
 
+    // Regla: no se repite la combinacion titulo mas autor (409)
     public Libro crearLibro(LibroSolictud datosLibro){
+        // Validacion
+        if(libroRepositorio.existsByTituloIgnoreCaseAndAutorIgnoreCase(datosLibro.titulo().trim(), datosLibro.autor().trim())){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Ya existe un libro con ese titulo y autor");
+        }
         Libro libro = new Libro();
         copiarDatos(datosLibro, libro);
         return libroRepositorio.save(libro); // INSERT (el libro no tiene id esta se autogenera)
